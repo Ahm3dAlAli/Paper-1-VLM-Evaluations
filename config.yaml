@@ -1,0 +1,35 @@
+# VLM Research Pipeline Configuration for FGVC Aircraft Dataset
+# config.yaml
+
+# Data configuration
+data:
+  data_dir: "./data/fgvc-aircraft"  # Directory where FGVC Aircraft will be downloaded/stored
+  annotation_level: "manufacturer"  # Options: 'variant', 'family', 'manufacturer'
+  download: true  # Auto-download dataset if not present
+  max_samples: null  # Set to number for testing (e.g., 500), null for full dataset
+  test_split: 0.2  # Not used with FGVC (has predefined splits)
+  val_split: 0.1   # Not used with FGVC (has predefined splits)
+
+# Model configuration
+models:
+  clip_model: "openai/clip-vit-base-patch32"  # or "openai/clip-vit-large-patch14"
+  resnet_model: "resnet50"  # or "resnet101"
+
+# Evaluation configuration
+evaluation:
+  known_classes: ["Boeing", "Airbus"]  # Must match actual manufacturer names in dataset
+  cv_folds: 5
+  random_seed: 42
+
+# LoRA fine-tuning configuration
+lora:
+  rank: 16  # LoRA rank (lower = more parameter efficient)
+  alpha: 32.0  # LoRA scaling factor
+  epochs: 20
+  learning_rate: 0.001
+
+# Output configuration
+output:
+  base_dir: "./vlm_research_results"
+  save_features: true  # Save extracted features for reuse
+  save_models: true   # Save trained models
